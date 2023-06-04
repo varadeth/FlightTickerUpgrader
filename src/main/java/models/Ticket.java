@@ -22,6 +22,7 @@ public record Ticket(String pnr,
 
     @Override
     public void validate() throws Exception {
+        person.validate();
         validateTicketingDate();
         validatePNR();
         validateBookingClass();
