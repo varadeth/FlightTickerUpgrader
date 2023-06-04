@@ -1,11 +1,14 @@
 package models;
 
+import exception.InvalidPNRException;
 import exception.InvalidTicketingDateException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public record Ticket(String pnr,
                      String fareClass,
@@ -18,6 +21,15 @@ public record Ticket(String pnr,
     @Override
     public void validate() throws Exception {
         validateTicketingDate();
+        validatePNR();
+    }
+
+    private void validatePNR() throws InvalidPNRException {
+        String regex = "^[A-Z0-9]{6}$";
+        Pattern pnrPattern = Pattern.compile(regex);
+        Matcher matcher = pnrPattern.matcher(pnr);
+        if(!matcher.matches())
+            throw new InvalidPNRException("PNR Number is not valid");
     }
 
     private void validateTicketingDate() throws InvalidTicketingDateException, ParseException {
