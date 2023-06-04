@@ -1,4 +1,5 @@
 import exception.EmailInvalidException;
+import exception.MobileInvalidException;
 import models.Person;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,18 @@ public class PersonTest {
 
     @Test
     void shouldNotThrowExceptionWhenCorrectEmailAddressPassedForPerson() {
+        Person person = new Person("Prasanjeet", "Mane", "prasanjeet@gmail.com", "9191919191");
+        assertDoesNotThrow(() -> person.validate());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIncorrectMobileNumberForPerson() {
+        Person person = new Person("Prasanjeet", "Mane", "prasanjeet@gmail.com", "919191919");
+        assertThrows(MobileInvalidException.class, () -> person.validate());
+    }
+
+    @Test
+    void shouldNotThrowExceptionWhenCorrectMobileNumberForPerson() {
         Person person = new Person("Prasanjeet", "Mane", "prasanjeet@gmail.com", "9191919191");
         assertDoesNotThrow(() -> person.validate());
     }

@@ -10,6 +10,16 @@ public record Person(String firstName, String lastName, String email, String mob
     @Override
     public void validate() throws Exception {
         validateEmail();
+        validateMobile();
+    }
+
+    private void validateMobile() throws MobileInvalidException {
+        String mobileRegex = "^[6-9][0-9]{9}$";
+        Pattern emailPattern = Pattern.compile(mobileRegex);
+        Matcher matcher = emailPattern.matcher(mobileNumber);
+        if(!matcher.matches()) {
+            throw new MobileInvalidException("Email is invalid");
+        }
     }
 
     private void validateEmail() throws EmailInvalidException {
