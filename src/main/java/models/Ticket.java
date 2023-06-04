@@ -1,11 +1,13 @@
 package models;
 
+import exception.InvalidBookingClassException;
 import exception.InvalidPNRException;
 import exception.InvalidTicketingDateException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +24,14 @@ public record Ticket(String pnr,
     public void validate() throws Exception {
         validateTicketingDate();
         validatePNR();
+        validateBookingClass();
+    }
+
+    private void validateBookingClass() throws InvalidBookingClassException {
+        String[] validClasses = new String[]{"Economy", "Premium Economy", "First", "Business"};
+        if(Arrays.stream(validClasses).filter(validClass -> validClass.equals(bookedCabin)).count() == 0) {
+            throw new InvalidBookingClassException("Class is invalid");
+        }
     }
 
     private void validatePNR() throws InvalidPNRException {
