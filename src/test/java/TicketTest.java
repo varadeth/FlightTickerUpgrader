@@ -6,8 +6,7 @@ import models.Ticket;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -60,5 +59,41 @@ public class TicketTest {
         Ticket ticket = new Ticket("ABC123", "A", "2023-07-22", 2, "2023-06-04", "Economy", person);
         ticket.validate();
         verify(person, times(1)).validate();
+    }
+
+    @Test
+    void shouldReturnDiscountCodeAsOffer_20() throws Exception {
+        Person person = Mockito.mock(Person.class);
+        Ticket ticket = new Ticket("ABC123", "A", "2023-07-22", 2, "2023-06-04", "Economy", person);
+        String expectedDiscountCode = "OFFER_20";
+
+        String actualDiscountCode = ticket.getDiscountCode();
+
+        verify(person, times(1)).validate();
+        assertEquals(expectedDiscountCode, actualDiscountCode);
+    }
+
+    @Test
+    void shouldReturnDiscountCodeAsOffer_30() throws Exception {
+        Person person = Mockito.mock(Person.class);
+        Ticket ticket = new Ticket("ABC123", "F", "2023-07-22", 2, "2023-06-04", "Economy", person);
+        String expectedDiscountCode = "OFFER_30";
+
+        String actualDiscountCode = ticket.getDiscountCode();
+
+        verify(person, times(1)).validate();
+        assertEquals(expectedDiscountCode, actualDiscountCode);
+    }
+
+    @Test
+    void shouldReturnDiscountCodeAsOffer_25() throws Exception {
+        Person person = Mockito.mock(Person.class);
+        Ticket ticket = new Ticket("ABC123", "P", "2023-07-22", 2, "2023-06-04", "Economy", person);
+        String expectedDiscountCode = "OFFER_25";
+
+        String actualDiscountCode = ticket.getDiscountCode();
+
+        verify(person, times(1)).validate();
+        assertEquals(expectedDiscountCode, actualDiscountCode);
     }
 }

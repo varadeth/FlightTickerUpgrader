@@ -52,5 +52,16 @@ public record Ticket(String pnr,
         }
     }
 
-
+    public String getDiscountCode() throws Exception {
+        this.validate();
+        char fareClassChr = fareClass.toCharArray()[0];
+        if(fareClassChr >= 'A' && fareClassChr <= 'E') {
+            return "OFFER_20";
+        } else if (fareClassChr >= 'F' && fareClassChr <= 'K') {
+            return "OFFER_30";
+        } else if (fareClassChr >= 'L' && fareClassChr <= 'R') {
+            return "OFFER_25";
+        }
+        return "";
+    }
 }
